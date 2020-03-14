@@ -11,8 +11,20 @@ const MenuButtonStyled = styled(Button)`
   z-index: 1000002;
 `
 
+const ButtonStyled = styled.button`
+  position: fixed;
+  top: 50px;
+  right: 0;
+  z-index: 1000002;
+`
+
 const MenuButton = props => (
   <MenuButtonStyled onClick={props.onClickAction}>{props.children}</MenuButtonStyled>
+)
+const HtmlButton = props => (
+  <ButtonStyled onClick={props.onClickAction}>
+    {props.children}
+  </ButtonStyled>
 )
 
 class Nav extends React.Component {
@@ -75,7 +87,8 @@ class Nav extends React.Component {
   render() {
     return (
       <div ref={this.wrapperRef}>
-        <MenuButton onClickAction={this.handleMouseDown}>click</MenuButton>
+        <MenuButton onClickAction={this.handleMouseDown}>Primer Button</MenuButton>
+        <HtmlButton onClickAction={this.handleMouseDown}>HTML button</HtmlButton>
         <Menu
           handleMouseDown={this.handleMouseDown}
           menuVisible={this.state.visible}
