@@ -8,14 +8,14 @@ const MenuButtonStyled = styled(Button)`
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 1000002;
+  z-index: 1001;
 `
 
 const ButtonStyled = styled.button`
   position: fixed;
   top: 50px;
   right: 0;
-  z-index: 1000002;
+  z-index: 1001;
 `
 
 const MenuButton = props => (
