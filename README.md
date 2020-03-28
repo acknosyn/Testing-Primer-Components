@@ -8,30 +8,40 @@ gatsby develop
 ```
 
 ### 2. Localhost
-The site should be running on http://localhost:8000
+The site should be running on http://localhost:8000,  
+or if it's already in use, enter `y` when prompted to run on another port.
 
 ## Issue
-The issue starts happening in @primer/components version 13.2.0, the issue is not present in version 13.1.0. The issue is still present in the latest version, 16.0.0.
+### Version
+The issue starts happening in `@primer/components` version `13.1.0`, the issue is not present in version `13.0.0`. The issue is still present in the latest version, `16.0.0`.
 
-When the Button component is clicked, the button element disappears behind all other elements. The z-index (highest on page) is unchanged in CSS, so looks like a rendering bug.
+Version `13.1.0` included an upgrade to Styled System v5. Maybe this has something to do with this [changelog item](https://github.com/styled-system/styled-system/blob/master/CHANGELOG.md#v500-2019-06-02):
+>The new theme.sizes scale replaces heights, minHeights, maxHeights, minWidths, and maxWidths; and is used for the width prop
 
-Clicking another time brings the element forward again; even clicking in the developer tools window, outside of the rendered view.
+### Description
+The `maxWidth` property from the `styled-system` LAYOUT props does not translate the received `maxWidths` theme key into the its value.
 
-When menu opens, click events on the button are ignored until the menu is moved out of view. The menu has a z-index lower than the button, but it appears to be blocking the click events.
+With version `13.0.0`, using `maxWidth` with a theme size like `medium` will correctly translate into its pixel value, `768px`.
+
+In versions `13.1.0` and up, `maxWidth` no longer translates the theme's `maxWidths` keys into its pixel value. In Chrome DevTools, you can see the `maxWidths` key string `'medium'` is used in the CSS instead of the key's value.
+
+You can see the `maxWidths` values which are apart of primer's theme here: https://github.com/primer/components/blob/master/src/theme.js#L163
+
+Using a string for a literal CSS value still works. E.g., `maxWidth="200px"`.
 
 ## Preview
-### 1. Button component issue.
+### 1. maxWidth issue.
 
-@primer/components version: `13.2.0`
+@primer/components version: `13.1.0` and up
 
-Button component disappears behind other elements and click events are ignored.
+maxWidth prop can't use theme values such as `medium`.
 
-![](gifs/Primer_Components_Button_Not_Working_v13.2.0.gif)
+![](images/maxWidth-not-working-13.1.0.png)
 
-### 2. Button component working as expected.
+### 2. maxWidth working as expected.
 
-@primer/components version: `13.1.0`
+@primer/components version: `13.0.0`
 
-Button component stays on top of menu and click events are captured.
+maxWidth prop can use theme values such as `medium`.
 
-![](gifs/Primer_Components_Button_Working_v13.1.0.gif)
+![](images/maxWidth-working-13.0.0.png)
